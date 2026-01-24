@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+{% block title %}Dish Types | Kitchen Service{% endblock %}
+{% block content %}
+<div class="d-flex align-items-center justify-content-between mb-3">
+  <div>
+    <h1 class="h3 fw-semibold mb-0">Dish Types</h1>
+    <p class="text-body-secondary mb-0">Group dishes by their type (e.g., Soup, Dessert, Main).</p>
+  </div>
+  <a class="btn btn-primary" href="{% url 'kitchen:dish-type-create' %}">+ New Type</a>
+</div>
+
+<form method="get" class="row g-2 align-items-end mb-3">
+  <div class="col-sm-6 col-lg-4">
+    {{ search_form.q.label_tag }}
+    {{ search_form.q }}
+  </div>
+  <div class="col-auto">
+    <button class="btn btn-outline-primary" type="submit">Search</button>
+    <a class="btn btn-outline-secondary" href="{% url 'kitchen:dish-type-list' %}">Reset</a>
+  </div>
+</form>
+
+<div class="card shadow-sm border-0 rounded-4">
+  <div class="card-body p-0">
+    <div class="table-responsive">
+      <table class="table align-middle mb-0">
+        <thead class="table-light">
+          <tr>
+            <th>Name</th>
+            <th class="text-end">Dishes</th>
+            <th class="text-end">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+        {% for obj in dishtype_list %}
+          <tr>
+            <td>{{ obj.name }}</td>
+            <td class="text-end">{{ obj.num_dishes }}</td>
+            <td class="text-end">
+              <a class="btn btn-outline-primary btn-sm" href="{% url 'kitchen:dish-type-update' obj.id %}">Edit</a>
+              <a class="btn btn-outline-danger btn-sm" href="{% url 'kitchen:dish-type-delete' obj.id %}">Delete</a>
+            </td>
+          </tr>
+        {% empty %}
+          <tr><td colspan="3" class="text-center py-4 text-body-secondary">No dish types found.</td></tr>
+        {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+{% include 'includes/pagination.html' %}
+{% endblock %}

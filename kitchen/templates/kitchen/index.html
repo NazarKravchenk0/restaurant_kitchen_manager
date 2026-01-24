@@ -1,0 +1,87 @@
+{% extends 'base.html' %}
+{% block title %}Dashboard | Kitchen Service{% endblock %}
+{% block content %}
+<div class="d-flex align-items-end justify-content-between mb-4">
+  <div>
+    <h1 class="display-6 fw-semibold mb-1">Kitchen Dashboard</h1>
+    <p class="text-body-secondary mb-0">Track dishes, ingredients and responsible cooks.</p>
+  </div>
+  <a class="btn btn-primary" href="{% url 'kitchen:dish-create' %}">+ New Dish</a>
+</div>
+
+<div class="row g-3 mb-4">
+  <div class="col-6 col-lg-3">
+    <div class="card card-kpi shadow-sm">
+      <div class="card-body">
+        <div class="text-body-secondary">Dishes</div>
+        <div class="h2 fw-semibold mb-0">{{ num_dishes }}</div>
+      </div>
+    </div>
+  </div>
+  <div class="col-6 col-lg-3">
+    <div class="card card-kpi shadow-sm">
+      <div class="card-body">
+        <div class="text-body-secondary">Dish Types</div>
+        <div class="h2 fw-semibold mb-0">{{ num_dish_types }}</div>
+      </div>
+    </div>
+  </div>
+  <div class="col-6 col-lg-3">
+    <div class="card card-kpi shadow-sm">
+      <div class="card-body">
+        <div class="text-body-secondary">Ingredients</div>
+        <div class="h2 fw-semibold mb-0">{{ num_ingredients }}</div>
+      </div>
+    </div>
+  </div>
+  <div class="col-6 col-lg-3">
+    <div class="card card-kpi shadow-sm">
+      <div class="card-body">
+        <div class="text-body-secondary">Cooks</div>
+        <div class="h2 fw-semibold mb-0">{{ num_cooks }}</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="card shadow-sm border-0 rounded-4">
+  <div class="card-body p-4">
+    <div class="d-flex align-items-center justify-content-between mb-3">
+      <h2 class="h5 fw-semibold mb-0">Latest dishes</h2>
+      <a class="btn btn-outline-primary btn-sm" href="{% url 'kitchen:dish-list' %}">View all</a>
+    </div>
+    {% if latest_dishes %}
+      <div class="table-responsive">
+        <table class="table align-middle">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Type</th>
+              <th>Responsible cooks</th>
+              <th class="text-end">Price</th>
+            </tr>
+          </thead>
+          <tbody>
+          {% for dish in latest_dishes %}
+            <tr>
+              <td><a class="text-decoration-none" href="{% url 'kitchen:dish-detail' dish.id %}">{{ dish.name }}</a></td>
+              <td><span class="badge badge-soft">{{ dish.dish_type.name }}</span></td>
+              <td>
+                {% for cook in dish.cooks.all %}
+                  <span class="badge text-bg-light">{{ cook.username }}</span>
+                {% empty %}
+                  <span class="text-body-secondary">—</span>
+                {% endfor %}
+              </td>
+              <td class="text-end">${{ dish.price }}</td>
+            </tr>
+          {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    {% else %}
+      <p class="text-body-secondary mb-0">No dishes yet. Create the first one!</p>
+    {% endif %}
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+{% block title %}{{ dish.name }} | Kitchen Service{% endblock %}
+{% block content %}
+<div class="d-flex align-items-start justify-content-between mb-3">
+  <div>
+    <h1 class="h3 fw-semibold mb-1">{{ dish.name }}</h1>
+    <div class="text-body-secondary">Type: <span class="badge badge-soft">{{ dish.dish_type.name }}</span> · Created: {{ dish.created_at|date:"Y-m-d H:i" }}</div>
+  </div>
+  <div class="d-flex gap-2">
+    <a class="btn btn-outline-primary" href="{% url 'kitchen:dish-update' dish.id %}">Edit</a>
+    <a class="btn btn-outline-danger" href="{% url 'kitchen:dish-delete' dish.id %}">Delete</a>
+  </div>
+</div>
+
+<div class="row g-3">
+  <div class="col-lg-7">
+    <div class="card shadow-sm border-0 rounded-4">
+      <div class="card-body p-4">
+        <h2 class="h5 fw-semibold">Description</h2>
+        {% if dish.description %}
+          <p class="mb-0">{{ dish.description }}</p>
+        {% else %}
+          <p class="text-body-secondary mb-0">No description.</p>
+        {% endif %}
+        <hr>
+        <div class="d-flex align-items-center justify-content-between">
+          <div class="text-body-secondary">Price</div>
+          <div class="h4 fw-semibold mb-0">${{ dish.price }}</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-lg-5">
+    <div class="card shadow-sm border-0 rounded-4 mb-3">
+      <div class="card-body p-4">
+        <h2 class="h6 fw-semibold">Responsible cooks</h2>
+        {% for cook in dish.cooks.all %}
+          <div class="d-flex align-items-center justify-content-between py-1">
+            <a class="text-decoration-none" href="{% url 'kitchen:cook-detail' cook.id %}">{{ cook.username }}</a>
+            <span class="text-body-secondary small">{{ cook.years_of_experience }} yrs</span>
+          </div>
+        {% empty %}
+          <p class="text-body-secondary mb-0">No cooks assigned.</p>
+        {% endfor %}
+      </div>
+    </div>
+
+    <div class="card shadow-sm border-0 rounded-4">
+      <div class="card-body p-4">
+        <h2 class="h6 fw-semibold">Ingredients</h2>
+        {% for ing in dish.ingredients.all %}
+          <span class="badge text-bg-light me-1 mb-1">{{ ing.name }}</span>
+        {% empty %}
+          <p class="text-body-secondary mb-0">No ingredients selected.</p>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="mt-4">
+  <a class="btn btn-outline-secondary" href="{% url 'kitchen:dish-list' %}">← Back to dishes</a>
+</div>
+{% endblock %}
