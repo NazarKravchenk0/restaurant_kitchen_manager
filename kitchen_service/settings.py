@@ -1,4 +1,5 @@
-"""Django settings for Kitchen Service Manager.
+"""
+Django settings for Kitchen Service Manager.
 
 Portfolio project: Restaurant Kitchen Service.
 
@@ -10,17 +11,23 @@ Main features:
 - Bootstrap 5 UI
 """
 
+import os
 from pathlib import Path
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+
 # SECURITY WARNING: keep the secret key used in production secret!
-# For demo/portfolio you can keep it here.
-SECRET_KEY = "django-insecure-portfolio-kitchen-service"
+SECRET_KEY = os.environ.get("SECRET_KEY")
+
+if not SECRET_KEY:
+    raise RuntimeError("SECRET_KEY environment variable is not set")
+
 
 DEBUG = True
 
 ALLOWED_HOSTS: list[str] = []
+
 
 INSTALLED_APPS = [
     "django.contrib.admin",
@@ -32,6 +39,7 @@ INSTALLED_APPS = [
     "kitchen",
 ]
 
+
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
@@ -42,7 +50,9 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
 
+
 ROOT_URLCONF = "kitchen_service.urls"
+
 
 TEMPLATES = [
     {
@@ -60,7 +70,9 @@ TEMPLATES = [
     }
 ]
 
+
 WSGI_APPLICATION = "kitchen_service.wsgi.application"
+
 
 DATABASES = {
     "default": {
@@ -69,24 +81,41 @@ DATABASES = {
     }
 }
 
+
 AUTH_PASSWORD_VALIDATORS = [
-    {"NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator"},
-    {"NAME": "django.contrib.auth.password_validation.MinimumLengthValidator"},
-    {"NAME": "django.contrib.auth.password_validation.CommonPasswordValidator"},
-    {"NAME": "django.contrib.auth.password_validation.NumericPasswordValidator"},
+    {
+        "NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator",
+    },
+    {
+        "NAME": "django.contrib.auth.password_validation.MinimumLengthValidator",
+    },
+    {
+        "NAME": "django.contrib.auth.password_validation.CommonPasswordValidator",
+    },
+    {
+        "NAME": "django.contrib.auth.password_validation.NumericPasswordValidator",
+    },
 ]
 
+
 LANGUAGE_CODE = "en-us"
+
 TIME_ZONE = "UTC"
+
 USE_I18N = True
+
 USE_TZ = True
+
 
 STATIC_URL = "static/"
 STATICFILES_DIRS = [BASE_DIR / "static"]
 
+
 LOGIN_REDIRECT_URL = "/"
 LOGOUT_REDIRECT_URL = "/accounts/login/"
 
+
 AUTH_USER_MODEL = "kitchen.Cook"
+
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
