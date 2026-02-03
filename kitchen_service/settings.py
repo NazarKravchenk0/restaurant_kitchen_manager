@@ -80,13 +80,22 @@ TEMPLATES = [
 
 WSGI_APPLICATION = "kitchen_service.wsgi.application"
 
-# SQLite for local dev, PostgreSQL on Render via DATABASE_URL
-DATABASES = {
-    "default": dj_database_url.config(
-        default=f"sqlite:///{BASE_DIR / 'db.sqlite3'}",
-        conn_max_age=600,
-    )
-}
+# Database:
+# - If DATABASE_URL exists and is non-empty -> use it (Render Postgres)
+# - Otherwise -> fallback to local SQLite (prevents dj_database_url crash)
+database_url = os.environ.get("DATABASE_URL", "").strip()
+
+if database_url:
+    DATABASES = {
+        "default": dj_database_url.parse(database_url, conn_max_age=600),
+    }
+else:
+    DATABASES = {
+        "default": {
+            "ENGINE": "django.db.backends.sqlite3",
+            "NAME": BASE_DIR / "db.sqlite3",
+        }
+    }
 
 AUTH_PASSWORD_VALIDATORS = [
     {
