@@ -1,0 +1,24 @@
+[tool.poetry]
+name = "restaurant-kitchen-manager"
+version = "0.1.0"
+description = "Restaurant Kitchen Service Django project"
+authors = ["Nazar Kravchenko <nazar@example.com>"]
+readme = "README.md"
+packages = [{ include = "kitchen_service" }]
+
+[tool.poetry.dependencies]
+python = ">=3.12,<3.13"
+
+Django = "4.2.10"
+gunicorn = "22.0.0"
+whitenoise = {extras = ["brotli"], version = "6.7.0"}
+dj-database-url = "2.2.0"
+psycopg2-binary = "2.9.9"
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^8.0.0"
+pytest-django = "^4.8.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
