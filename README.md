@@ -40,4 +40,16 @@ Open:
 - Admin: http://127.0.0.1:8000/admin/
 
 ## DB diagram
-See `docs/db_diagram.drawio` (editable in draw.io).
+See `docs/db_diagram.drawio` (editable in draw.io). 
+
+
+## 🔐 Test Login Credentials
+
+The project is deployed and доступен по адресу:
+
+👉 https://restaurant-kitchen-manager-4x7p.onrender.com/accounts/login/?next=/
+
+You can use the following test account to log in:
+
+login: admin
+password: admin12345
