@@ -21,20 +21,22 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # Render sets env var RENDER=1 automatically
 DEBUG = "RENDER" not in os.environ
 
+# SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = os.environ.get("SECRET_KEY")
 if not SECRET_KEY:
-    # Allow local run without env var
     if DEBUG:
         SECRET_KEY = "django-insecure-dev-secret-key"
     else:
         raise RuntimeError("SECRET_KEY environment variable is not set")
 
+# https://docs.djangoproject.com/en/4.2/ref/settings/#allowed-hosts
 ALLOWED_HOSTS: list[str] = ["localhost", "127.0.0.1"]
 
 RENDER_EXTERNAL_HOSTNAME = os.environ.get("RENDER_EXTERNAL_HOSTNAME")
 if RENDER_EXTERNAL_HOSTNAME:
     ALLOWED_HOSTS.append(RENDER_EXTERNAL_HOSTNAME)
 
+# CSRF for Render domain
 CSRF_TRUSTED_ORIGINS: list[str] = []
 if RENDER_EXTERNAL_HOSTNAME:
     CSRF_TRUSTED_ORIGINS.append(f"https://{RENDER_EXTERNAL_HOSTNAME}")
@@ -87,7 +89,10 @@ database_url = os.environ.get("DATABASE_URL", "").strip()
 
 if database_url:
     DATABASES = {
-        "default": dj_database_url.parse(database_url, conn_max_age=600),
+        "default": dj_database_url.config(
+            default=database_url,
+            conn_max_age=600,
+        ),
     }
 else:
     DATABASES = {
@@ -107,6 +112,11 @@ AUTH_PASSWORD_VALIDATORS = [
     {
         "NAME": (
             "django.contrib.auth.password_validation.MinimumLengthValidator"
+        ),
+    },
+    {
+        "NAME": (
+            "django.contrib.auth.password_validation.CommonPasswordValidator"
         ),
     },
     {
