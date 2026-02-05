@@ -1,0 +1,66 @@
+[
+  {
+    "model": "kitchen.cook",
+    "pk": 1,
+    "fields": {
+      "username": "admin",
+      "first_name": "Admin",
+      "last_name": "User",
+      "years_of_experience": 10,
+      "is_staff": true,
+      "is_superuser": true,
+      "is_active": true,
+      "password": "pbkdf2_sha256$600000$demo$FQqkXb5P7l8Q9wY8sN7ZVZ1nqvQeVqkQ2r3g4b5c6d7e8f9g"
+    }
+  },
+
+  {
+    "model": "kitchen.dishtype",
+    "pk": 1,
+    "fields": {
+      "name": "Soup"
+    }
+  },
+  {
+    "model": "kitchen.dishtype",
+    "pk": 2,
+    "fields": {
+      "name": "Main"
+    }
+  },
+
+  {
+    "model": "kitchen.ingredient",
+    "pk": 1,
+    "fields": {
+      "name": "Chicken"
+    }
+  },
+  {
+    "model": "kitchen.ingredient",
+    "pk": 2,
+    "fields": {
+      "name": "Potato"
+    }
+  },
+  {
+    "model": "kitchen.ingredient",
+    "pk": 3,
+    "fields": {
+      "name": "Salt"
+    }
+  },
+
+  {
+    "model": "kitchen.dish",
+    "pk": 1,
+    "fields": {
+      "name": "Chicken Soup",
+      "description": "Classic chicken soup",
+      "price": "7.50",
+      "dish_type": 1,
+      "cooks": [1],
+      "ingredients": [1, 2, 3]
+    }
+  }
+]
